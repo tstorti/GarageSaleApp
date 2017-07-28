@@ -62,6 +62,7 @@ var app ={
 				app.updateUsers();
 				$("#newUser-popup").hide();
 				var user = firebase.auth().currentUser;
+				$('#newUser-popup').modal('toggle');
 
 				user.sendEmailVerification().then(function() {
   					// Email sent.
@@ -451,6 +452,9 @@ var app ={
 			rsvpBtn.addClass("js-rsvp");
 			commentsBtn.attr("data-listing-id",key);
 			commentsBtn.addClass("js-comments");
+			commentsBtn.attr("type","button");
+			commentsBtn.attr("data-toggle","modal");
+			commentsBtn.attr("data-target","#comments-popup");
 			attendees.attr("id","attendees-"+key);
 
 			//set label values in html tags
@@ -629,11 +633,7 @@ var app ={
 			var password =$("#password").val();
 
 			firebase.auth().signInWithEmailAndPassword(username, password).then(function(result){
-
-				$("#popup").hide();
-
-				
-				$("#login-popup").hide();
+				$('#login-popup').modal('toggle');
 
 			}).catch(function(error) {
 				// Handle Errors here.
@@ -766,7 +766,7 @@ var app ={
 								listingDate.text(snapshot.val().date+" to "+snapshot.val().endDate);
 							}
 							cancelBtn.text("Cancel Event");
-							cancelBtn.addClass("js-cancel-event");
+							cancelBtn.addClass("btn btn-danger js-cancel-event");
 							cancelBtn.attr("data-listing-id",snapshot.getKey())
 							hostedContainer.append(listingName);
 							hostedContainer.append(cancelBtn);
@@ -968,14 +968,15 @@ $(document).on("click","#search", function(){
 });
 
 //listener to log that a user is "attending" a selected event
-$(document).on("click", ".js-rsvp", function () {
+$(document).on("click", ".js-rsvp", function (event) {
+	event.preventDefault();
 	app.rsvp(this);
 });
 
 //listener to open the login popup or log out user depending on userStatus
 $(document).on('click', '#login', function() {
 	if($("#login").text() === "Login"){
-		$("#login-popup").show();
+		// $("#login-popup").show();
 	}
 	else{
 		app.logoutUser();
@@ -984,8 +985,7 @@ $(document).on('click', '#login', function() {
 
 //listener to open the new user popup if that is selected on first login screen
 $(document).on('click', '#add-user-submit', function() {
-	$("#login-popup").hide();
-	$("#newUser-popup").show();
+	$('#login-popup').modal('toggle');
 });
 
 //listener to initiate the login process, checking account information and displaying error or completing login
@@ -1001,12 +1001,6 @@ $(document).on('click', '#password-reset', function() {
 //listener to initiate the new user process, checking login and password (and displaying any errors) before saving to DB
 $(document).on('click', '#create-user-submit', function() {
 	app.addNewUser();
-});
-
-//listener to close login popups
-$(document).on('click', '#cancel-user-submit', function() {
-	$("#newUser-popup").hide();
-	$("#login-popup").hide();
 });
 
 //listener to show expanded details on a selected event
@@ -1030,12 +1024,12 @@ $(document).on('click', '.js-expand', function() {
 
 //listener to open user profile if the user is logged in.  Alternate clicks will close profile
 $(document).on('click', '#profile', function() {
-		$("#profile-container").show();
 		app.populateProfile();
 });
 
 //listener to update profile "about me" section for each user
-$(document).on('click', '#profile-update', function() {
+$(document).on('click', '#profile-update', function(event) {
+	event.preventDefault();
 	app.profileDescriptionUpdate();
 });
 
@@ -1044,17 +1038,14 @@ $(document).on("click", ".js-comments", function () {
 	app.commentsThread(this);
 });
 
-//listener to close comments thread popup
-$(document).on('click', '#comments-close', function() {
-	$("#comments-popup").hide();
-});
-
 //listener to submit comments on popup
-$(document).on('click', '#comments-submit', function() {
+$(document).on('click', '#comments-submit', function(event) {
+	event.preventDefault();
 	app.commentsThreadAdd(this);
 });
 
 //listener to cancel event if you are organizer
-$(document).on('click', '.js-cancel-event', function() {
+$(document).on('click', '.js-cancel-event', function(event) {
+	event.preventDefault();
 	app.cancelEvent(this);
 });

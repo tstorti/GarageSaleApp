@@ -198,13 +198,10 @@ var popup = {
 
 
 //listeners
-//add event
-$(document).on('click', '#addEvent', function() {
-	popup.popUp();
-});
 
 //submit and start a long line of promises
-$(document).on('click', '#submit', function() {
+$(document).on('click', '#submit', function(event) {
+	$('#event').modal('toggle');
 	popup.validateField().then(function(results) {
 		popup.submit();
 		if(document.getElementById('fileInput').files[0]!==undefined){
@@ -219,10 +216,4 @@ $(document).on('click', '#submit', function() {
 		
 	})
 });
-
-//clicking the button in the corner of modal pops it all away
-$(document).on('click', '.js-cancel', function() {
-	popup.popDown()
-});
-
 

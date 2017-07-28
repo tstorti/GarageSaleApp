@@ -26,9 +26,9 @@
 		<div class="nav nav-pills">
 			<div class="navbar-brand">Another Man's Treasure</div>
 			<div class="navbar-right">
-				<button id="profile" style="visibility:hidden" type="button" class="btn btn-primary btn-lg btn-margin-right">Profile</button>		
-				<button id="login" type="button" class="btn btn-primary btn-lg btn-margin-right">Login</button>
-				<button id="addEvent" type="button" class="btn btn-primary btn-lg btn-margin-right">Add Event</button>
+				<button id="profile" style="visibility:hidden" type="button" class="btn btn-primary btn-lg btn-margin-right" data-toggle="modal" data-target="#profile-container">Profile</button>		
+				<button id="login" type="button" class="btn btn-primary btn-lg btn-margin-right" data-toggle="modal" data-target="#login-popup">Login</button>
+				<button id="addEvent" type="button" class="btn btn-primary btn-lg btn-margin-right" data-toggle="modal" data-target="#event">Add Event</button>
 			</div>
 		</div>
 	</div>
@@ -103,176 +103,181 @@
 	</div>
 
 	<!--Profile Popup-->
-	<div class="modal" id="profile-container" style="display:none;">
-		<div class="modal-content profile">
-			<div>
+	<div class="modal fade" id="profile-container">
+		<div class="modal-dialog profile">
+			<div class="modal-content">
 				<div>
-					<button class="js-cancel">x</button>
-				</div>
-				<div id="profile-username">User Name</div>
-				<div id="profile-email">Email</div>
-				<div>
-					<div>About Me:</div>
-					<button id="profile-update" data-state="update">Update Profile About Me</button>
-				</div>
-				<div>
-					<div id="profile-about"></div>
-				</div>
-			</div>
-			<div>
-				<div>My Events</div>
-				<div>
-					<div>Hosted:</div>
-					<div id="profile-hosted"></div>	
+					<div>
+						<button class="btn btn-danger" type="button" data-toggle="modal" data-target="#profile-container">x</button>
+					</div>
+					<div id="profile-username">User Name</div>
+					<div id="profile-email">Email</div>
+					<div>
+						<div>About Me:</div>
+						<button class="btn btn-info" id="profile-update" data-state="update">Update Profile About Me</button>
+					</div>
+					<div>
+						<div id="profile-about"></div>
+					</div>
 				</div>
 				<div>
-					<div>Attendnig/Attended:</div>
-					<div id="profile-attended"></div>
+					<div>My Events</div>
+					<div>
+						<div>Hosted:</div>
+						<div id="profile-hosted"></div>	
+					</div>
+					<div>
+						<div>Attendnig/Attended:</div>
+						<div id="profile-attended"></div>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 
 	<!--Add Event Popup-->
-	<div class="modal" id="event" style="display:none;">
-		<div class="new-event modal-content">
-			<div>
-				<button class="js-cancel">x</button>
-			</div>
-			<div>
-				<div>Title (required)</div>
+	<div class="modal fade" id="event" tabindex="-1" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
 				<div>
-					<input type="text" name="title" id="title">
+					<button class="btn btn-danger" type="button" data-toggle="modal" data-target="#event">x</button>
 				</div>
-			</div>
-			<div>
-				<div>Description (required)</div>
 				<div>
-					<input type="text" name="description" id="description">
+					<div>Title (required)</div>
+					<div>
+						<input type="text" name="title" id="title">
+					</div>
 				</div>
-			</div>
-			<div>
-				<div>Description (required)</div>
 				<div>
-					<input type="text" name="description" id="description">
+					<div>Description (required)</div>
+					<div>
+						<input type="text" name="description" id="description">
+					</div>
 				</div>
-			</div>
-			<div>
-				<div>Dates</div>
-				<div>Start (required)-</div>
 				<div>
-					<input style="display: inline;" type="date" name="date" id="date">
+					<div>Dates</div>
+					<div>Start (required)-</div>
+					<div>
+						<input style="display: inline;" type="date" name="date" id="date">
+					</div>
+					<div>End (optional)-</div>
+					<div>
+						<input style="display:inline;" type="date" name="date" id="endDate">
+					</div>
 				</div>
-				<div>End (optional)-</div>
 				<div>
-					<input style="display:inline;" type="date" name="date" id="endDate">
+					<div>Start Time (required)</div>
+					<div>
+						<input type="time" name="start" id="start">
+					</div>
+					<div>End Time (required)</div>
+					<div>
+						<input type="time" name="end" id="end">
+					</div>
 				</div>
-			</div>
-			<div>
-				<div>Start Time (required)</div>
 				<div>
-					<input type="time" name="start" id="start">
+					<div>Location (required)</div>
+					<div>
+						<input type="text" name="location" id="location">
+					</div>
 				</div>
-				<div>End Time (required)</div>
 				<div>
-					<input type="time" name="end" id="end">
+					<div>Keywords</div>
+					<div>
+						<input type="text" name="keyword" id="keyword">
+					</div>
 				</div>
-			</div>
-			<div>
-				<div>Location (required)</div>
 				<div>
-					<input type="text" name="location" id="location">
+					<div>Image</div>
+					<div>
+						<label class="btn btn-info">
+							<input type="file" name="file" id="fileInput">
+							Add Image
+						</label>
+						
+					</div>
 				</div>
-			</div>
-			<div>
-				<div>Keywords</div>
+				<div id="validate"></div>
 				<div>
-					<input type="text" name="keyword" id="keyword">
+					<button class="btn btn-success" type="button" id="submit">Create Event</button>
 				</div>
-			</div>
-			<div>
-				<div>Image</div>
-				<div>
-					<input type="file" name="file" id="fileInput">
-				</div>
-			</div>
-			<div id="validate"></div>
-			<div>
-				<button id="submit">create event</button>
 			</div>
 		</div>
 	</div>
 
 	<!--Login Popup-->
-	<div class="modal" id="login-popup" style="display:none;">
-		<div class="modal-content login">
-			<div>
-				<button class="js-cancel">x</button>
-			</div>
-			<div>
-				<div>Login with your email and password</div>
+	 <div class="modal fade" id="login-popup" tabindex="-1" role="dialog" >
+		<div class="modal-dialog">
+			<div class="modal-content">
 				<div>
-					<input placeholder="email address" id="username">
+					<button class="btn btn-danger" type="button" data-toggle="modal" data-target="#login-popup">x</button>
 				</div>
 				<div>
-					<input placeholder="password" id="password">
+					<div>Login with your email and password</div>
+					<div>
+						<input placeholder="email address" id="username">
+					</div>
+					<div>
+						<input placeholder="password" id="password">
+					</div>
 				</div>
+				<div>
+					<button class="btn btn-success" type="button" id="login-user-submit">Login</button>
+					<button class="btn btn-warning" type="button" id="password-reset">Forgot Password</button>
+					<button class="btn btn-success" type="button" id="add-user-submit" data-toggle="modal" data-target="#newUser-popup">Add New User</button>
+				</div>
+				<div id="error-login"></div>
 			</div>
-			<div>
-				<button id="login-user-submit">Login</button>
-				<button id="cancel-user-submit">Cancel</button>
-				<button id="password-reset">Forgot Password</button>
-				<button id="add-user-submit">Add New User</button>
-			</div>
-			<div id="error-login"></div>
 		</div>
-	</div>
+	</div> 
 
 	<!--New User Popup-->
-	<div class="modal" id="newUser-popup" style="display:none;">
-		<div class="modal-content login">
-			<div>
-				<button class="js-cancel">x</button>
-			</div>
-			<div>
-				<div>Create new account with your email and password</div>
+	<div class="modal fade" id="newUser-popup" tabindex="-1" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
 				<div>
-					<input placeholder="username" id="newUsername">
+					<button class="btn btn-danger" type="button" data-toggle="modal" data-target="#newUser-popup">x</button>
 				</div>
 				<div>
-					<input placeholder="password" id="newPassword">
+					<div>Create new account with your email and password</div>
+					<div>
+						<input placeholder="username" id="newUsername">
+					</div>
+					<div>
+						<input placeholder="password" id="newPassword">
+					</div>
+					<div>
+						<input placeholder="confirm password" id="confirmNewPassword">
+					</div>
 				</div>
 				<div>
-					<input placeholder="confirm password" id="confirmNewPassword">
+					<button type="button" class="btn btn-success" id="create-user-submit">Add New User</button>
 				</div>
+				<div id="error-submit"></div>
 			</div>
-			<div>
-				<button id="cancel-user-submit">Cancel</button>
-				<button id="create-user-submit">Add New User</button>
-			</div>
-			<div id="error-submit"></div>
 		</div>
 	</div>
 
 	<!--Comments Thread Popup-->
-	<div class="modal" id="comments-popup" style="display:none;">
-		<div class="modal-content comments">
-			<div>
-				<button class="js-cancel">x</button>
-			</div>
-			<div>
-				<div>Comments Thread for event:</div>
-				<div id="comments-name"></div>
-			</div>
-			<div>
-				<div id="comments"></div>
-			</div>
-			<div>
-				<input placeholder="Add Comment" id="comments-new">
-			</div>
-			<div>
-				<button id="comments-submit">Submit</button>
-				<button id="comments-close">Close</button>
+	<div class="modal fade" id="comments-popup">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div>
+					<button class="btn btn-danger" type="button" data-toggle="modal" data-target="#comments-popup">x</button>
+				</div>
+				<div>
+					<div>Comments Thread for event:</div>
+					<div id="comments-name"></div>
+				</div>
+				<div>
+					<div id="comments"></div>
+				</div>
+				<div>
+					<input placeholder="Add Comment" id="comments-new">
+				</div>
+				<div>
+					<button class="btn btn-success" id="comments-submit">Submit</button>
+				</div>
 			</div>
 		</div>
 	</div>
